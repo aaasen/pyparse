@@ -4,5 +4,5 @@ import requests
 
 print "hey!"
 
-r = requests.get('https://github.com/timeline.json')
+r = requests.get('http://thepiratebay.se/')
 print r.status_code
