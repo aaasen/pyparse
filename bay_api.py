@@ -1,6 +1,12 @@
 
 import requests
+from lxml import etree
+from cssselect import GenericTranslator, SelectorError
+
 import itertools
+
+import parse
+from torrent import Torrent
 
 class BayAPI:
 	base_url = 'http://thepiratebay.se'
@@ -16,4 +22,17 @@ class BayAPI:
 		self.session = requests.Session()
 
 	def search(self, term, sort=0, pages=1):
-		return self.__get__(['search', term, 0, 7, 0])
+		response = self.__get__(['search', term, 0, 7, 0])
+
+		if response.status_code == requests.codes.ok:		
+			tree = etree.HTML(response.text)
+
+			expression = GenericTranslator().css_to_xpath('a.detLink')
+
+			links = tree.xpath(expression)
+			links = map(lambda x: parse.get_tuple(x.items(), 'href'), links)
+			links = map(lambda x: Torrent(x), links)
+
+			return links
+		else:
+			return None
