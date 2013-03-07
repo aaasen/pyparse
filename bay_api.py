@@ -11,6 +11,15 @@ from torrent import Torrent
 class BayAPI:
 	base_url = 'http://thepiratebay.se'
 
+	sort_codes = { 
+		'default' : 0,
+		'date' : 3,
+		'size' : 5,
+		'seeders' : 7,
+		'leechers' : 8,
+		'uploader' : 11 
+	}
+
 	def __get__(self, path=[], params={}):
 		path = map(lambda x: str(x), path)
 
@@ -21,8 +30,8 @@ class BayAPI:
 	def __init__(self):
 		self.session = requests.Session()
 
-	def search(self, term, sort=0, pages=1):
-		response = self.__get__(['search', term, 0, 7, 0])
+	def search(self, term, sort=sort_codes['seeders'], page=0):
+		response = self.__get__(['search', term, page, sort, 0])
 
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
