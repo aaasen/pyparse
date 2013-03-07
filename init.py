@@ -11,5 +11,6 @@ tpb = BayAPI()
 
 torrents = tpb.search('hello')
 
-for torrent in torrents:
-	print torrent.url
+r = tpb._get()
+
+print r.status_code

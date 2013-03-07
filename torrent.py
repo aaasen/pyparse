@@ -3,6 +3,7 @@ class Torrent:
 	url = None
 
 	name = None
+	uid = None
 	magnet = None
 	info_hash = None
 	

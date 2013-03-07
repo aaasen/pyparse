@@ -20,18 +20,18 @@ class BayAPI:
 		'uploader' : 11 
 	}
 
-	def __get__(self, path=[], params={}):
-		path = map(lambda x: str(x), path)
+	def _url_join(self, el):
+		el = map(lambda x: str(x), el)
+		return '/'.join(el)
 
-		path_string = '/'.join(path)
-
-		return self.session.get(self.base_url + ('/' if len(path) > 0 else '') + path_string, params=params)
+	def _get(self, path='', params={}):
+		return self.session.get(self.base_url + ('/' if path and path[0] != '/' else '') + path, params=params)
 
 	def __init__(self):
 		self.session = requests.Session()
 
 	def search(self, term, sort=sort_codes['seeders'], page=0):
-		response = self.__get__(['search', term, page, sort, 0])
+		response = self._get(self._url_join(['search', term, page, sort, 0]))
 
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
