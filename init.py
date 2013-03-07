@@ -4,22 +4,16 @@ import requests
 from lxml import etree
 from cssselect import GenericTranslator, SelectorError
 
-from fakebrowser import FakeBrowser
+from bay_api import BayAPI
 
-s = requests.Session()
-s.headers.update(FakeBrowser.headers)
+tpb = BayAPI()
 
-print "requesting"
+r = tpb.search('hello')
 
-r = requests.get('http://thepiratebay.se/search/test/0/99/0')
+root = etree.HTML(r.text)
 
-print r.status_code
+expression = GenericTranslator().css_to_xpath('a.detLink')
 
-if r.status_code == requests.codes.ok:
-	root = etree.HTML(r.text)
+links = root.xpath(expression)
 
-	expression = GenericTranslator().css_to_xpath('a.detLink')
-
-	links = root.xpath(expression)
-
-	print map(lambda x: [v[1] for i, v in enumerate(x.items()) if v[0] == 'href'], links)
+print map(lambda x: [v[1] for i, v in enumerate(x.items()) if v[0] == 'href'][0], links)
