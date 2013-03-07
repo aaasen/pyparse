@@ -18,3 +18,6 @@ class Torrent:
 
 	size = None
 	num_files = None
+
+	def __init__(self, url):
+		self.url = url

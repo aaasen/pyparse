@@ -5,6 +5,8 @@ from lxml import etree
 from cssselect import GenericTranslator, SelectorError
 
 from bay_api import BayAPI
+from torrent import Torrent
+import parse
 
 tpb = BayAPI()
 
@@ -16,4 +18,9 @@ expression = GenericTranslator().css_to_xpath('a.detLink')
 
 links = root.xpath(expression)
 
-print map(lambda x: [v[1] for i, v in enumerate(x.items()) if v[0] == 'href'][0], links)
+links = map(lambda x: parse.get_tuple(x.items(), 'href'), links)
+
+links = map(lambda x: Torrent(x), links)
+
+for link in links:
+	print link.url
