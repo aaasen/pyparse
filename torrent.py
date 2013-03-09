@@ -1,4 +1,7 @@
 
+from lxml import etree
+from cssselect import GenericTranslator, SelectorError
+
 class Torrent:
 	url = None
 
@@ -22,3 +25,10 @@ class Torrent:
 
 	def __init__(self, url):
 		self.url = url
+
+	def get_description(self, tree):
+			expression = GenericTranslator().css_to_xpath('div.nfo')
+
+			description = tree.xpath(expression)
+			
+			return description[0].getchildren()[0].text

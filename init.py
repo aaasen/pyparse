@@ -7,10 +7,12 @@ from cssselect import GenericTranslator, SelectorError
 from bay_api import BayAPI
 from torrent import Torrent
 
+from pprint import pprint
+
 tpb = BayAPI()
 
-torrents = tpb.search('hello')
+# torrents = tpb.search('hello')
 
-r = tpb._get()
+torrent = tpb.get_torrent('/torrent/6019583/Martin_Solveig_Feat._Dragonette_-_Hello.mp3')
 
-print r.status_code
+pprint (vars(torrent))

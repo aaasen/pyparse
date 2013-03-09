@@ -24,8 +24,8 @@ class BayAPI:
 		el = map(lambda x: str(x), el)
 		return '/'.join(el)
 
-	def _get(self, path='', params={}):
-		return self.session.get(self.base_url + ('/' if path and path[0] != '/' else '') + path, params=params)
+	def _get(self, path='', params={}, url=base_url):
+		return self.session.get(url + ('/' if path and path[0] != '/' else '') + path, params=params)
 
 	def __init__(self):
 		self.session = requests.Session()
@@ -43,5 +43,20 @@ class BayAPI:
 			links = map(lambda x: Torrent(x), links)
 
 			return links
+		else:
+			return None
+
+	def get_torrent(self, path, torrent=None):
+		response = self._get(path)
+
+		if response.status_code == requests.codes.ok:
+			if (torrent == None):
+				torrent = Torrent(path)
+
+			tree = etree.HTML(response.text)
+
+			torrent.description = torrent.get_description(tree)
+
+			return torrent
 		else:
 			return None
