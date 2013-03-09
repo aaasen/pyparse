@@ -46,13 +46,10 @@ class BayAPI:
 		else:
 			return None
 
-	def get_torrent(self, path, torrent=None):
-		response = self._get(path)
+	def get_torrent(self, torrent):
+		response = self._get(torrent.url)
 
 		if response.status_code == requests.codes.ok:
-			if (torrent == None):
-				torrent = Torrent(path)
-
 			tree = etree.HTML(response.text)
 
 			torrent.description = torrent.get_description(tree)

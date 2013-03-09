@@ -11,8 +11,8 @@ from pprint import pprint
 
 tpb = BayAPI()
 
-# torrents = tpb.search('hello')
+torrents = tpb.search('hello')
 
-torrent = tpb.get_torrent('/torrent/6019583/Martin_Solveig_Feat._Dragonette_-_Hello.mp3')
+torrent = tpb.get_torrent(torrents[0])
 
 pprint (vars(torrent))
