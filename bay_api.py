@@ -9,30 +9,27 @@ import time
 import parse
 from torrent import Torrent
 from fakebrowser import FakeBrowser
+from source import Source
 
 class BayAPI:
-	base_url = 'http://thepiratebay.se'
-
-	sort_codes = {
-		"default" : 0,
-		"date" : 3,
-		"size" : 5,
-		"seeders" : 7,
-		"leechers" : 8,
-		"uploader" : 11 
-	}
+	source = None
+	session = None
 
 	def _url_join(self, el):
 		el = map(lambda x: str(x), el)
 		return '/'.join(el)
 
-	def _get(self, path='', params={}, url=base_url):
+	def _get(self, path='', params={}, url=None):
+		if url is None:
+			url = self.source.config['info']['url']
+		
 		return self.session.get(url + ('/' if path and path[0] != '/' else '') + path, params=params)
 
-	def __init__(self):
+	def __init__(self, source):
 		self.session = requests.Session()
+		self.source = source
 
-	def search(self, term, sort=sort_codes['seeders'], page=0):
+	def search(self, term, sort, page=0):
 		response = self._get(self._url_join(['search', term, page, sort, 0]))
 
 		if response.status_code == requests.codes.ok:		

@@ -6,13 +6,15 @@ from cssselect import GenericTranslator, SelectorError
 
 from bay_api import BayAPI
 from torrent import Torrent
+from source import Source
 
 from pprint import pprint
 
-tpb = BayAPI()
+tpb = Source('sources/pirate_bay.json')
+tpb_api = BayAPI(tpb)
 
-torrents = tpb.search('ubuntu')
+torrents = tpb_api.search('ubuntu', tpb.config['search']['sort_codes']['seeders'])
 
-torrent = tpb.get_torrent(torrents[0])
+torrent = tpb_api.get_torrent(torrents[0])
 
 pprint(vars(torrent))
