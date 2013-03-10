@@ -4,9 +4,11 @@ from lxml import etree
 from cssselect import GenericTranslator, SelectorError
 
 import itertools
+import time
 
 import parse
 from torrent import Torrent
+from fakebrowser import FakeBrowser
 
 class BayAPI:
 	base_url = 'http://thepiratebay.se'
@@ -54,6 +56,28 @@ class BayAPI:
 
 			torrent.description = torrent.get_description(tree)
 
+
+			expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2')
+
+			col2 = tree.xpath(expression)
+
+			tags = col2[0].iter(tag='dt')
+			data = col2[0].iter(tag='dd')
+
+			tags = map(lambda x: x.text, tags)
+			data = map(lambda x: x.text, data)
+
+			zipped = zip(tags, data)
+
+			torrent.seeders = parse.get_tuple_fuzzy(zipped, 'seed')
+			torrent.leechers = parse.get_tuple_fuzzy(zipped, 'leech')
+			torrent.date = time.strptime(parse.get_tuple_fuzzy(zipped, 'uploaded'), "%Y-%m-%d %H:%M:%S GMT")
+
 			return torrent
 		else:
 			return None
+
+def _decode_unicode(string):
+	if string is not None:
+		return string.encode('ascii', 'ignore')
+	return ''
