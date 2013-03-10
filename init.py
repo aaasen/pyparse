@@ -15,4 +15,4 @@ torrents = tpb.search('ubuntu')
 
 torrent = tpb.get_torrent(torrents[0])
 
-pprint (vars(torrent))
+pprint(vars(torrent))

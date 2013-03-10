@@ -13,13 +13,13 @@ from fakebrowser import FakeBrowser
 class BayAPI:
 	base_url = 'http://thepiratebay.se'
 
-	sort_codes = { 
-		'default' : 0,
-		'date' : 3,
-		'size' : 5,
-		'seeders' : 7,
-		'leechers' : 8,
-		'uploader' : 11 
+	sort_codes = {
+		"default" : 0,
+		"date" : 3,
+		"size" : 5,
+		"seeders" : 7,
+		"leechers" : 8,
+		"uploader" : 11 
 	}
 
 	def _url_join(self, el):
