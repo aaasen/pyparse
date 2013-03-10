@@ -1,0 +1,36 @@
+
+{
+	"info" : {
+		"name" : "The Pirate Bay",
+		"url" : "http://thepiratebay.se/",
+
+		"headers" : {
+			"User-Agent" : "curl/7.19.4 (universal-apple-darwin10.0) libcurl/7.19.4 OpenSSL/0.9.8k zlib/1.2.3",
+			"Host" : "127.0.0.1",
+			"Accept" : "*/*" 
+		}
+	},
+
+	"search" : {
+		"url" : "http://thepiratebay.se/search/",
+		"schema" : "[search_term]/[page_number]/[sort_code]/[category]",
+		
+		"sort_codes" : {
+			"default" : 0,
+			"date" : 3,
+			"size" : 5,
+			"seeders" : 7,
+			"leechers" : 8,
+			"uploader" : 11 
+		},
+
+		"categories" : {
+			"all" : 0,
+			"audio" : 100,
+			"video" : 200,
+			"applications" : 300,
+			"games" : 400,
+			"other" : 600
+		},
+	}
+}
