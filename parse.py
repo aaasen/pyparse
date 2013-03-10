@@ -15,4 +15,3 @@ def get_tuple_fuzzy(tuples, key):
 		return [v[1] for i, v in enumerate(tuples) if (key.lower() in v[0].lower())][0]
 	except IndexError, e:
 		pass
-
