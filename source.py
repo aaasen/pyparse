@@ -2,8 +2,10 @@
 import json
 
 class Source:
-	config = None
+	_config = None
 
 	def __init__(self, config_file):
 		with open(config_file, 'r') as f:
-			self.config = json.load(f)
+			self._config = json.load(f)
+			self.info = self._config['info']
+			self.search = self._config['search']

@@ -12,8 +12,8 @@
 	},
 
 	"search" : {
-		"url" : "http://thepiratebay.se/search/",
-		"schema" : "[search_term]/[page_number]/[sort_code]/[category]",
+		"search_url" : "http://thepiratebay.se/search/",
+		"search_schema" : "[search_term]/[page_number]/[sort_code]/[category]",
 		
 		"sort_codes" : {
 			"default" : 0,

@@ -13,7 +13,7 @@ from pprint import pprint
 tpb = Source('sources/pirate_bay.json')
 tpb_api = BayAPI(tpb)
 
-torrents = tpb_api.search('ubuntu', tpb.config['search']['sort_codes']['seeders'])
+torrents = tpb_api.search('ubuntu', tpb.search['sort_codes']['seeders'])
 
 torrent = tpb_api.get_torrent(torrents[0])
 
