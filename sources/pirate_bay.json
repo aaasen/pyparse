@@ -37,5 +37,9 @@
 			"type" : "link",
 			"selector" : "a.detLink"
 		}
+	},
+
+	"torrent" : {
+		"schema" : "http://thepiratebay.se[[url]]"
 	}
 }

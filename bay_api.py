@@ -69,7 +69,10 @@ class BayAPI:
 			return None
 
 	def get_torrent(self, torrent):
-		response = self._get(torrent.url)
+		url = parse.translate_schema(self.source.torrent["schema"],
+			{ "url" : torrent.url })
+
+		response = self.session.get(url)
 
 		if response.status_code == requests.codes.ok:
 			tree = etree.HTML(response.text)
