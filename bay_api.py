@@ -39,8 +39,20 @@ class BayAPI:
 		self.source = source
 
 	'''returns a list of torrent objects containing only torrent urls'''
-	def search(self, term, sort, page=0):
-		response = self._get(self._url_join(['search', term, page, sort, 0]))
+	def search(self, term, sort=None, category=None, page=0):
+		if sort is None:
+			sort = self.source.search["sort_codes"]["default"]
+
+		if category is None:
+			category = self.source.search["categories"]["default"]
+
+		url = parse.translate_schema(self.source.search["schema"],
+			{ "search_term" : term,
+			"page_number" : page,
+			"sort_code" : sort,
+			"category" : category })
+
+		response = self.session.get(url)
 
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
@@ -53,6 +65,7 @@ class BayAPI:
 
 			return links
 		else:
+			print(response.status_code)
 			return None
 
 	def get_torrent(self, torrent):

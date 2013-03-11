@@ -25,7 +25,7 @@ def translate_schema(schema, kv):
 
 	for key in keys:
 		try:
-			schema = schema.replace('[[' + key + ']]', kv[key])
+			schema = schema.replace('[[' + key + ']]', str(kv[key]))
 		except KeyError, e:
 			logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys))
 
