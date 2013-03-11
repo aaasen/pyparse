@@ -16,24 +16,6 @@ class BayAPI:
 	source = None
 	session = None
 
-	def _url_join(self, el):
-		el = map(lambda x: str(x), el)
-		return '/'.join(el)
-
-	def _prepend_base_url(self, path, url=None):
-		if url is None:
-			url = self.source.info['url']
-
-		if url[-1] != '/' and path[0] != '/':
-			url += '/'
-		elif url[-1] == '/' and path[0] == '/':
-			url = url[:-1]
-
-		return url + path
-
-	def _get(self, path='', params={}, url=None):
-		return self.session.get(self._prepend_base_url(path), params=params)
-
 	def __init__(self, source):
 		self.session = requests.Session()
 		self.source = source
