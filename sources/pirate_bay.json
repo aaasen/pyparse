@@ -12,8 +12,7 @@
 	},
 
 	"search" : {
-		"search_url" : "http://thepiratebay.se/search/",
-		"search_schema" : "[search_term]/[page_number]/[sort_code]/[category]",
+		"schema" : "http://thepiratebay.se/search/[search_term]/[page_number]/[sort_code]/[category]",
 		
 		"sort_codes" : {
 			"default" : 0,
@@ -31,6 +30,11 @@
 			"applications" : 300,
 			"games" : 400,
 			"other" : 600
+		},
+
+		"parser" : {
+			"type" : "link",
+			"selector" : "a.detLink"
 		}
 	}
 }

@@ -38,6 +38,7 @@ class BayAPI:
 		self.session = requests.Session()
 		self.source = source
 
+	'''returns a list of torrent objects containing only torrent urls'''
 	def search(self, term, sort, page=0):
 		response = self._get(self._url_join(['search', term, page, sort, 0]))
 
