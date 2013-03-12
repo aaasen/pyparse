@@ -30,3 +30,9 @@ def translate_schema(schema, kv):
 			logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys))
 
 	return schema
+
+def get_attr(el, attr):
+	if attr == 'text':
+		return el.text
+	else:
+		return el.get(attr)

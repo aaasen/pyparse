@@ -40,6 +40,11 @@
 	},
 
 	"torrent" : {
-		"schema" : "http://thepiratebay.se[[url]]"
+		"schema" : "http://thepiratebay.se[[url]]",
+
+		"description" : {
+			"selector" : "div.nfo > pre",
+			"attr" : "text"
+		}
 	}
 }
