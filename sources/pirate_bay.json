@@ -34,8 +34,8 @@
 		},
 
 		"parser" : {
-			"type" : "link",
-			"selector" : "a.detLink"
+			"selector" : "a.detLink",
+			"attr" : "href"
 		}
 	},
 
