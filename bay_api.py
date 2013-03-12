@@ -34,52 +34,66 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		response = self.session.get(url)
+		# response = self.session.get(url)
 
-		if response.status_code == requests.codes.ok:		
-			tree = etree.HTML(response.text)
+		# with open('cache/search', 'r') as f:
+		# 	f.write(_decode_unicode(response.text))
 
-			expression = GenericTranslator().css_to_xpath('a.detLink')
+		# if response.status_code == requests.codes.ok:		
+		
+		with open('cache/search', 'r') as f:
+			text = f.read()
 
-			links = tree.xpath(expression)
-			links = map(lambda x: parse.get_tuple(x.items(), 'href'), links)
-			links = map(lambda x: Torrent(x), links)
+		tree = etree.HTML(text)
 
-			return links
-		else:
-			print(response.status_code)
-			return None
+		expression = GenericTranslator().css_to_xpath('a.detLink')
+
+		links = tree.xpath(expression)
+		links = map(lambda x: parse.get_tuple(x.items(), 'href'), links)
+		links = map(lambda x: Torrent(x), links)
+
+		return links
+		
+		# else:
+			# return None
 
 	def get_torrent(self, torrent):
 		url = parse.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
-		response = self.session.get(url)
+		# response = self.session.get(url)
 
-		if response.status_code == requests.codes.ok:
-			tree = etree.HTML(response.text)
+		# with open('cache/torrent', 'w') as f:
+		# 	f.write(_decode_unicode(response.text))
 
-			torrent.description = torrent.get_description(tree)
+		# if response.status_code == requests.codes.ok:
 
-			expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2')
+		with open('cache/torrent', 'r') as f:
+			text = f.read()
 
-			col2 = tree.xpath(expression)
+		tree = etree.HTML(text)
 
-			tags = col2[0].iter(tag='dt')
-			data = col2[0].iter(tag='dd')
+		torrent.description = torrent.get_description(tree)
 
-			tags = map(lambda x: x.text, tags)
-			data = map(lambda x: x.text, data)
+		expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2')
 
-			zipped = zip(tags, data)
+		col2 = tree.xpath(expression)
 
-			torrent.seeders = parse.get_tuple_fuzzy(zipped, 'seed')
-			torrent.leechers = parse.get_tuple_fuzzy(zipped, 'leech')
-			torrent.date = time.strptime(parse.get_tuple_fuzzy(zipped, 'uploaded'), "%Y-%m-%d %H:%M:%S GMT")
+		tags = col2[0].iter(tag='dt')
+		data = col2[0].iter(tag='dd')
 
-			return torrent
-		else:
-			return None
+		tags = map(lambda x: x.text, tags)
+		data = map(lambda x: x.text, data)
+
+		zipped = zip(tags, data)
+
+		torrent.seeders = parse.get_tuple_fuzzy(zipped, 'seed')
+		torrent.leechers = parse.get_tuple_fuzzy(zipped, 'leech')
+		torrent.date = time.strptime(parse.get_tuple_fuzzy(zipped, 'uploaded'), "%Y-%m-%d %H:%M:%S GMT")
+
+		return torrent
+		# else:
+		# 	return None
 
 def _decode_unicode(string):
 	if string is not None:
