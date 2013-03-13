@@ -1,16 +1,10 @@
 
 import requests
 from lxml import etree
-from cssselect import GenericTranslator, SelectorError
-
-import itertools
-import time
 
 import parse
+from parse import Parser
 from torrent import Torrent
-from fakebrowser import FakeBrowser
-from source import Source
-from log import logger
 
 class BayAPI:
 	source = None
@@ -46,7 +40,7 @@ class BayAPI:
 
 		tree = etree.HTML(text)
 
-		links = parse.parse(tree, self.source.search["parser"], first=False)
+		links = Parser(tree, self.source.search["parser"]).extract(first=False)
 		links = map(lambda x: Torrent(x), links)
 
 		return links
@@ -70,10 +64,10 @@ class BayAPI:
 
 		tree = etree.HTML(text)
 
-		torrent.date = parse.parse(tree, self.source.torrent["date"])
-		torrent.description = parse.parse(tree, self.source.torrent["description"])
-		torrent.seeders = parse.parse(tree, self.source.torrent["seeders"])
-		torrent.leechers = parse.parse(tree, self.source.torrent["leechers"])
+		torrent.date = Parser(tree, self.source.torrent["date"]).extract()
+		torrent.description = Parser(tree, self.source.torrent["description"]).extract()
+		torrent.seeders = Parser(tree, self.source.torrent["seeders"]).extract()
+		torrent.leechers = Parser(tree, self.source.torrent["leechers"]).extract()
 
 		return torrent
 		# else:

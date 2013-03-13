@@ -8,6 +8,56 @@ import time
 
 from log import logger
 
+class Parser:
+	parser = None
+	tree = None
+
+	def _get_attr(self, el):
+		if self.parser["attr"] == 'text':
+			return el.text
+		else:
+			return el.get(self.parser["attr"])
+
+	def _expression(self):
+		if self.parser["method"] == "xpath":
+			return etree.XPath(self.parser["xpath"], namespaces=self.parser["namespaces"])
+		elif self.parser["method"] == "css":
+			return GenericTranslator().css_to_xpath(self.parser["selector"])
+		else:
+			raise ValueError(self.parser["method"] + 'is not a recognized parsing method')
+
+	def _execute(self, expression):
+		if self.parser["method"] == "xpath":
+			result = expression(self.tree)
+		elif self.parser["method"] == "css":
+			result = self.tree.xpath(expression)
+		else:
+			raise ValueError(self.parser["method"] + 'is not a recognized parsing method')
+		return result if all else result[0]
+
+	def _post_one(self, result):
+		result = self._get_attr(result)
+
+		try:
+			result = time.strptime(result, self.parser["date-format"])
+		except KeyError:
+			pass
+
+		return result
+
+	def _post(self, results, first=True):
+		if not first:
+			return map(lambda x: self._post_one(x), results)
+		else:
+			return self._post_one(results[0])
+
+	def extract(self, first=True):
+		return self._post(self._execute(self._expression()), first=first)
+
+	def __init__(self, tree, parser):
+		self.tree = tree
+		self.parser = parser
+
 def translate_schema(schema, kv):
 	keys = [el.group(1) for el in re.finditer('\[\[(.+?)\]\]', schema)]
 
@@ -18,45 +68,3 @@ def translate_schema(schema, kv):
 			logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys))
 
 	return schema
-
-def _get_attr(el, attr):
-	if attr == 'text':
-		return el.text
-	else:
-		return el.get(attr)
-
-def _expression(parser):
-	if parser["method"] == "xpath":
-		return etree.XPath(parser["xpath"], namespaces=parser["namespaces"])
-	elif parser["method"] == "css":
-		return GenericTranslator().css_to_xpath(parser["selector"])
-	else:
-		raise ValueError(parser["method"] + 'is not a recognized parsing method')
-
-def _execute(tree, expression, parser):
-	if parser["method"] == "xpath":
-		result = expression(tree)
-	elif parser["method"] == "css":
-		result = tree.xpath(expression)
-	else:
-		raise ValueError(parser["method"] + 'is not a recognized parsing method')
-	return result if all else result[0]
-
-def _post_one(result, parser):
-	result = _get_attr(result, parser["attr"])
-
-	try:
-		result = time.strptime(result, parser["date-format"])
-	except KeyError:
-		pass
-
-	return result
-
-def _post(results, parser, first=True):
-	if not first:
-		return map(lambda x: _post_one(x, parser), results)
-	else:
-		return _post_one(results[0], parser)
-
-def parse(tree, parser, first=True):
-	return _post(_execute(tree, _expression(parser), parser), parser, first=first)
