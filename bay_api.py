@@ -73,36 +73,10 @@ class BayAPI:
 
 		tree = etree.HTML(text)
 
-		expression = GenericTranslator().css_to_xpath(self.source.torrent["description"]["selector"])
-		description = tree.xpath(expression)
-		torrent.description = parse.get_attr(description[0], self.source.torrent["description"]["attr"])
-
-
-		expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2')
-
-		col2 = tree.xpath(expression)
-
-		tags = col2[0].iter(tag='dt')
-		data = col2[0].iter(tag='dd')
-
-		tags = map(lambda x: x.text, tags)
-		data = map(lambda x: x.text, data)
-
-		zipped = zip(tags, data)
-
-		expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2 > dd')
-		description = tree.xpath(expression)
-
-
-		xp = etree.XPath(self.source.torrent["seeders"]["xpath"], namespaces=self.source.torrent["seeders"]["namespaces"])
-		torrent.seeders = parse.get_attr(xp(tree)[0], self.source.torrent["seeders"]["attr"])
-
-		xp = etree.XPath(self.source.torrent["leechers"]["xpath"], namespaces=self.source.torrent["leechers"]["namespaces"])
-		torrent.leechers = parse.get_attr(xp(tree)[0], self.source.torrent["leechers"]["attr"])
-
-		xp = etree.XPath(self.source.torrent["date"]["xpath"], namespaces=self.source.torrent["date"]["namespaces"])
-		date = parse.get_attr(xp(tree)[0], self.source.torrent["date"]["attr"])
-		torrent.date = time.strptime(date, self.source.torrent["date"]["format"])
+		torrent.date = parse.parse(tree, self.source.torrent["date"])
+		torrent.description = parse.parse(tree, self.source.torrent["description"])
+		torrent.seeders = parse.parse(tree, self.source.torrent["seeders"])
+		torrent.leechers = parse.parse(tree, self.source.torrent["leechers"])
 
 		return torrent
 		# else:

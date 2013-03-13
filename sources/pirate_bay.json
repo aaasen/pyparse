@@ -70,7 +70,7 @@
 			"method" : "xpath",
 			"xpath" : "//dt[re:test(., \"\\s*uploaded:\\s*\", \"gi\")]//following::dd",
 			"attr" : "text",
-			"format" : "%Y-%m-%d %H:%M:%S GMT",
+			"date-format" : "%Y-%m-%d %H:%M:%S GMT",
 			"namespaces" : {
 				"re" : "http://exslt.org/regular-expressions"
 			}

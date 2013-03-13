@@ -4,6 +4,7 @@ from lxml import etree
 from cssselect import GenericTranslator, SelectorError
 
 import re
+import time
 
 from log import logger
 
@@ -37,5 +38,30 @@ def get_attr(el, attr):
 	else:
 		return el.get(attr)
 
+def _expression(parser):
+	if parser["method"] == "xpath":
+		return etree.XPath(parser["xpath"], namespaces=parser["namespaces"])
+	elif parser["method"] == "css":
+		return GenericTranslator().css_to_xpath(parser["selector"])
+	else:
+		raise ValueError(parser["method"] + 'is not a recognized parsing method')
+
+def _execute(tree, expression, parser):
+	if parser["method"] == "xpath":
+		return expression(tree)[0]
+	elif parser["method"] == "css":
+		return tree.xpath(expression)[0]
+	else:
+		raise ValueError(parser["method"] + 'is not a recognized parsing method')
+
+def _post(result, parser):
+	result = get_attr(result, parser["attr"])
+
+	try:
+		return time.strptime(result, parser["date-format"])
+	except KeyError:
+		pass
+	return result
+
 def parse(tree, parser):
-	pass
+	return _post(_execute(tree, _expression(parser), parser), parser)
