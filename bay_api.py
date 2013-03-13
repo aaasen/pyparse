@@ -46,10 +46,7 @@ class BayAPI:
 
 		tree = etree.HTML(text)
 
-		expression = GenericTranslator().css_to_xpath(self.source.search["parser"]["selector"])
-
-		links = tree.xpath(expression)
-		links = map(lambda x: parse.get_attr(x, self.source.search["parser"]["attr"]), links)
+		links = parse.parse(tree, self.source.search["parser"], first=False)
 		links = map(lambda x: Torrent(x), links)
 
 		return links

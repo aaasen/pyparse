@@ -48,20 +48,28 @@ def _expression(parser):
 
 def _execute(tree, expression, parser):
 	if parser["method"] == "xpath":
-		return expression(tree)[0]
+		result = expression(tree)
 	elif parser["method"] == "css":
-		return tree.xpath(expression)[0]
+		result = tree.xpath(expression)
 	else:
 		raise ValueError(parser["method"] + 'is not a recognized parsing method')
+	return result if all else result[0]
 
-def _post(result, parser):
+def _post_one(result, parser):
 	result = get_attr(result, parser["attr"])
 
 	try:
-		return time.strptime(result, parser["date-format"])
+		result = time.strptime(result, parser["date-format"])
 	except KeyError:
 		pass
+
 	return result
 
-def parse(tree, parser):
-	return _post(_execute(tree, _expression(parser), parser), parser)
+def _post(results, parser, first=True):
+	if not first:
+		return map(lambda x: _post_one(x, parser), results)
+	else:
+		return _post_one(results[0], parser)
+
+def parse(tree, parser, first=True):
+	return _post(_execute(tree, _expression(parser), parser), parser, first=first)
