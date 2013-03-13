@@ -55,6 +55,25 @@
 			"namespaces" : {
 				"re" : "http://exslt.org/regular-expressions"
 			}
+		},
+
+		"leechers" : {
+			"method" : "xpath",
+			"xpath" : "//dt[re:test(., \"\\s*leechers:\\s*\", \"gi\")]//following::dd",
+			"attr" : "text",
+			"namespaces" : {
+				"re" : "http://exslt.org/regular-expressions"
+			}
+		},
+
+		"date" : {
+			"method" : "xpath",
+			"xpath" : "//dt[re:test(., \"\\s*uploaded:\\s*\", \"gi\")]//following::dd",
+			"attr" : "text",
+			"format" : "%Y-%m-%d %H:%M:%S GMT",
+			"namespaces" : {
+				"re" : "http://exslt.org/regular-expressions"
+			}
 		}
 	}
 }

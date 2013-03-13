@@ -97,8 +97,12 @@ class BayAPI:
 		xp = etree.XPath(self.source.torrent["seeders"]["xpath"], namespaces=self.source.torrent["seeders"]["namespaces"])
 		torrent.seeders = parse.get_attr(xp(tree)[0], self.source.torrent["seeders"]["attr"])
 
-		torrent.leechers = parse.get_tuple_fuzzy(zipped, 'leech')
-		torrent.date = time.strptime(parse.get_tuple_fuzzy(zipped, 'uploaded'), "%Y-%m-%d %H:%M:%S GMT")
+		xp = etree.XPath(self.source.torrent["leechers"]["xpath"], namespaces=self.source.torrent["leechers"]["namespaces"])
+		torrent.leechers = parse.get_attr(xp(tree)[0], self.source.torrent["leechers"]["attr"])
+
+		xp = etree.XPath(self.source.torrent["date"]["xpath"], namespaces=self.source.torrent["date"]["namespaces"])
+		date = parse.get_attr(xp(tree)[0], self.source.torrent["date"]["attr"])
+		torrent.date = time.strptime(date, self.source.torrent["date"]["format"])
 
 		return torrent
 		# else:
