@@ -43,8 +43,18 @@
 		"schema" : "http://thepiratebay.se[[url]]",
 
 		"description" : {
+			"method" : "css",
 			"selector" : "div.nfo > pre",
 			"attr" : "text"
+		},
+
+		"seeders" : {
+			"method" : "xpath",
+			"xpath" : "//dt[re:test(., \"\\s*seeders:\\s*\", \"gi\")]//following::dd",
+			"attr" : "text",
+			"namespaces" : {
+				"re" : "http://exslt.org/regular-expressions"
+			}
 		}
 	}
 }

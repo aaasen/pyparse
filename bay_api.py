@@ -73,12 +73,10 @@ class BayAPI:
 
 		tree = etree.HTML(text)
 
-
 		expression = GenericTranslator().css_to_xpath(self.source.torrent["description"]["selector"])
-
 		description = tree.xpath(expression)
-		
 		torrent.description = parse.get_attr(description[0], self.source.torrent["description"]["attr"])
+
 
 		expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2')
 
@@ -92,7 +90,13 @@ class BayAPI:
 
 		zipped = zip(tags, data)
 
-		torrent.seeders = parse.get_tuple_fuzzy(zipped, 'seed')
+		expression = GenericTranslator().css_to_xpath('dl.col1,dl.col2 > dd')
+		description = tree.xpath(expression)
+
+
+		xp = etree.XPath(self.source.torrent["seeders"]["xpath"], namespaces=self.source.torrent["seeders"]["namespaces"])
+		torrent.seeders = parse.get_attr(xp(tree)[0], self.source.torrent["seeders"]["attr"])
+
 		torrent.leechers = parse.get_tuple_fuzzy(zipped, 'leech')
 		torrent.date = time.strptime(parse.get_tuple_fuzzy(zipped, 'uploaded'), "%Y-%m-%d %H:%M:%S GMT")
 

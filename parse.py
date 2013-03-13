@@ -36,3 +36,6 @@ def get_attr(el, attr):
 		return el.text
 	else:
 		return el.get(attr)
+
+def parse(tree, parser):
+	pass
