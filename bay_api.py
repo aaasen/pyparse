@@ -35,7 +35,7 @@ class BayAPI:
 
 		# if response.status_code == requests.codes.ok:		
 		
-		with open('cache/search', 'r') as f:
+		with open('cache/tpb/search', 'r') as f:
 			text = f.read()
 
 		tree = etree.HTML(text)
@@ -59,7 +59,7 @@ class BayAPI:
 
 		# if response.status_code == requests.codes.ok:
 
-		with open('cache/torrent', 'r') as f:
+		with open('cache/tpb/torrent', 'r') as f:
 			text = f.read()
 
 		tree = etree.HTML(text)

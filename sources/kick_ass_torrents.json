@@ -1,0 +1,71 @@
+
+{
+	"info" : {
+		"name" : "Kick Ass Torrents",
+		"url" : "http://kat.ph/",
+
+		"headers" : {
+			"User-Agent" : "curl/7.19.4 (universal-apple-darwin10.0) libcurl/7.19.4 OpenSSL/0.9.8k zlib/1.2.3",
+			"Host" : "127.0.0.1",
+			"Accept" : "*/*" 
+		}
+	},
+
+	"search" : {
+		"schema" : "http://kat.ph/usearch/[[search_term]]%20category%3A[[category]]/[[page_number]]/?field=[[sort_code]]",
+		
+		"sort_codes" : {
+			"date" : "time_add",
+			"size" : "size",
+			"seeders" : "seeders",
+			"leechers" : "leechers",
+		},
+
+		"categories" : {
+			"audio" : "music",
+			"movies" : "movies",
+			"tv" : "tv",
+			"applications" : "applications",
+			"books" : "books",
+			"games" : "games"
+		},
+
+		"parser" : {
+			"method" : "css",
+			"selector" : "div.torrentname > a.torType.pdfType",
+			"attr" : "href"
+		}
+	},
+
+	"torrent" : {
+		"schema" : "http://kat.ph[[url]]",
+
+		"description" : {
+			"method" : "css",
+			"selector" : "div#desc",
+			"attr" : "text"
+		},
+
+		"seeders" : {
+			"method" : "xpath",
+			"xpath" : "//strong/@itemprop == \"seeders\"",
+			"attr" : "text"
+		},
+
+		"leechers" : {
+			"method" : "xpath",
+			"xpath" : "//strong/@itemprop == \"leechers\"",
+			"attr" : "text"
+		},
+
+		"date" : {
+			"method" : "xpath",
+			"xpath" : "//dt[re:test(., \"\\s*uploaded:\\s*\", \"gi\")]//following::dd",
+			"attr" : "text",
+			"date-format" : "%Y-%m-%d %H:%M:%S GMT",
+			"namespaces" : {
+				"re" : "http://exslt.org/regular-expressions"
+			}
+		}
+	}
+}
