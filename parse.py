@@ -8,19 +8,6 @@ import time
 
 from log import logger
 
-'''takes an array of tuples and returns the value of the tuple with the specified key'''
-def get_tuple(tuples, key):
-	try:
-		return [v[1] for i, v in enumerate(tuples) if v[0] == key][0]
-	except IndexError, e:
-		pass
-
-def get_tuple_fuzzy(tuples, key):
-	try:
-		return [v[1] for i, v in enumerate(tuples) if (key.lower() in v[0].lower())][0]
-	except IndexError, e:
-		pass
-
 def translate_schema(schema, kv):
 	keys = [el.group(1) for el in re.finditer('\[\[(.+?)\]\]', schema)]
 
@@ -32,7 +19,7 @@ def translate_schema(schema, kv):
 
 	return schema
 
-def get_attr(el, attr):
+def _get_attr(el, attr):
 	if attr == 'text':
 		return el.text
 	else:
@@ -56,7 +43,7 @@ def _execute(tree, expression, parser):
 	return result if all else result[0]
 
 def _post_one(result, parser):
-	result = get_attr(result, parser["attr"])
+	result = _get_attr(result, parser["attr"])
 
 	try:
 		result = time.strptime(result, parser["date-format"])
