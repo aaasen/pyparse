@@ -2,8 +2,8 @@
 import requests
 from lxml import etree
 
-import parse
-from parse import Parser
+import parser
+from parser import Parser
 from torrent import Torrent
 
 class BayAPI:
@@ -22,7 +22,7 @@ class BayAPI:
 		if category is None:
 			category = self.source.search["categories"]["default"]
 
-		url = parse.translate_schema(self.source.search["schema"],
+		url = parser.translate_schema(self.source.search["schema"],
 			{ "search_term" : term,
 			"page_number" : page,
 			"sort_code" : sort,
@@ -49,7 +49,7 @@ class BayAPI:
 			# return None
 
 	def get_torrent(self, torrent):
-		url = parse.translate_schema(self.source.torrent["schema"],
+		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
 		# response = self.session.get(url)
