@@ -12,22 +12,28 @@
 	},
 
 	"search" : {
-		"schema" : "http://kat.ph/usearch/[[search_term]]%20category%3A[[category]]/[[page_number]]/?field=[[sort_code]]",
+		"schema" : "http://kat.ph/usearch/<[[search_term]]><%20category%3A[[category]]></[[page_number]]/><?field=[[sort_code]]>",
 		
 		"sort_codes" : {
+			"default" : "none",
 			"date" : "time_add",
 			"size" : "size",
 			"seeders" : "seeders",
-			"leechers" : "leechers",
+			"leechers" : "leechers"
 		},
 
 		"categories" : {
+			"default" : "none",
 			"audio" : "music",
 			"movies" : "movies",
 			"tv" : "tv",
 			"applications" : "applications",
 			"books" : "books",
 			"games" : "games"
+		},
+
+		"page_number" : {
+			"default" : "none"
 		},
 
 		"parser" : {

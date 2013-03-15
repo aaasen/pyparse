@@ -59,11 +59,17 @@ class Parser:
 		self.parser = parser
 
 def translate_schema(schema, kv):
-	keys = [el.group(1) for el in re.finditer('\[\[(.+?)\]\]', schema)]
+	keys = re.findall('(\<.*?(\[\[(.+?)\]\]).*?\>)', schema)
 
 	for key in keys:
 		try:
-			schema = schema.replace('[[' + key + ']]', str(kv[key]))
+			if kv[key[2]] is None:
+				schema = schema.replace(key[0], '')
+			else:
+				el = key[0]
+				el = el.replace('<', '').replace('>', '')
+				el = el.replace(key[1], kv[key[2]])
+				schema = schema.replace(key[0], el)
 		except KeyError, e:
 			logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys))
 

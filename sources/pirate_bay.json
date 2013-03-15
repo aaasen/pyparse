@@ -15,7 +15,7 @@
 		"schema" : "http://thepiratebay.se/search/[[search_term]]/[[page_number]]/[[sort_code]]/[[category]]",
 		
 		"sort_codes" : {
-			"default" : 7,
+			"default" : 0,
 			"date" : 3,
 			"size" : 5,
 			"seeders" : 7,
@@ -31,6 +31,10 @@
 			"applications" : 300,
 			"games" : 400,
 			"other" : 600
+		},
+
+		"page_number" : {
+			"default" : "none"
 		},
 
 		"parser" : {

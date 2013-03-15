@@ -10,7 +10,7 @@ from source import Source
 
 from pprint import pprint
 
-tpb = Source('sources/pirate_bay.json')
+tpb = Source('sources/kick_ass_torrents.json')
 tpb_api = BayAPI(tpb)
 
 torrents = tpb_api.search('ubuntu', tpb.search['sort_codes']['seeders'])
