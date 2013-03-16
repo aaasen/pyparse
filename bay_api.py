@@ -6,6 +6,8 @@ import parser
 from parser import Parser
 from torrent import Torrent
 
+from pprint import pprint
+
 class BayAPI:
 	source = None
 	session = None
@@ -15,7 +17,7 @@ class BayAPI:
 		self.source = source
 
 	'''returns a list of torrent objects containing only torrent urls'''
-	def search(self, term, sort=None, category=None, page=None):
+	def search(self, term, sort=None, category=None, page=None, fp=None):
 		if sort is None:
 			sort = self.source.search["sort_codes"]["default"]
 			if sort == "none":
@@ -44,7 +46,7 @@ class BayAPI:
 
 		# if response.status_code == requests.codes.ok:		
 		
-		with open('cache/kat/search', 'r') as f:
+		with open(fp, 'r') as f:
 			text = f.read()
 
 		tree = etree.HTML(text)
@@ -57,7 +59,7 @@ class BayAPI:
 		# else:
 			# return None
 
-	def get_torrent(self, torrent):
+	def get_torrent(self, torrent, fp=None):
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
@@ -68,7 +70,7 @@ class BayAPI:
 
 		# if response.status_code == requests.codes.ok:
 
-		with open('cache/kat/torrent', 'r') as f:
+		with open(fp, 'r') as f:
 			text = f.read()
 
 		tree = etree.HTML(text)
