@@ -62,6 +62,12 @@
 			"method" : "css",
 			"selector" : "strong[itemprop=leechers]",
 			"attr" : "text"
+		},
+
+		"magnet" : {
+			"method" : "css",
+			"selector" : "a.magnetlinkButton",
+			"attr" : "href"
 		}
 	}
 }

@@ -79,6 +79,7 @@ class BayAPI:
 		torrent.description = Parser(tree, self.source.torrent["description"]).extract()
 		torrent.seeders = Parser(tree, self.source.torrent["seeders"]).extract()
 		torrent.leechers = Parser(tree, self.source.torrent["leechers"]).extract()
+		torrent.magnet = Parser(tree, self.source.torrent["magnet"]).extract()
 
 		return torrent
 		# else:

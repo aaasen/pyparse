@@ -79,6 +79,12 @@
 			"namespaces" : {
 				"re" : "http://exslt.org/regular-expressions"
 			}
+		},
+
+		"magnet" : {
+			"method" : "css",
+			"selector" : "div.download > a",
+			"attr" : "href"
 		}
 	}
 }
