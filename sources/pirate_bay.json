@@ -45,7 +45,7 @@
 	},
 
 	"torrent" : {
-		"schema" : "http://thepiratebay.se[[url]]",
+		"schema" : "http://thepiratebay.se<[[url]]>",
 
 		"description" : {
 			"method" : "css",
@@ -85,6 +85,14 @@
 			"method" : "css",
 			"selector" : "div.download > a",
 			"attr" : "href"
+		}
+	},
+
+	"comment" : {
+		"text" : {
+			"method" : "css",
+			"selector" : "div#comments > div.comment",
+			"attr" : "text"
 		}
 	}
 }

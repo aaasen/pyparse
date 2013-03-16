@@ -44,7 +44,7 @@
 	},
 
 	"torrent" : {
-		"schema" : "http://kat.ph[[url]]",
+		"schema" : "http://kat.ph<[[url]]>",
 
 		"description" : {
 			"method" : "css",
@@ -68,6 +68,14 @@
 			"method" : "css",
 			"selector" : "a.magnetlinkButton",
 			"attr" : "href"
+		}
+	},
+
+	"comment" : {
+		"text" : {
+			"method" : "css",
+			"selector" : "div#comments > div.comment",
+			"attr" : "text"
 		}
 	}
 }

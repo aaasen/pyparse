@@ -39,51 +39,55 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		# response = self.session.get(url)
+		print self.source.info["headers"]
+		response = self.session.get(url, headers=self.source.info["headers"])
 
 		# with open('cache/search', 'r') as f:
 		# 	f.write(_decode_unicode(response.text))
 
-		# if response.status_code == requests.codes.ok:		
+		if response.status_code == requests.codes.ok:		
 		
-		with open(fp, 'r') as f:
-			text = f.read()
+			# with open(fp, 'r') as f:
+			# 	text = f.read()
 
-		tree = etree.HTML(text)
+			tree = etree.HTML(response.text)
 
-		links = Parser(tree, self.source.search["parser"]).extract(first=False)
-		links = map(lambda x: Torrent(x), links)
+			links = Parser(tree, self.source.search["parser"]).extract(first=False)
+			links = map(lambda x: Torrent(x), links)
 
-		return links
+			return links
 		
-		# else:
-			# return None
+		else:
+			print url
+			print "search request error " + str(response.status_code)
+			return None
 
 	def get_torrent(self, torrent, fp=None):
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
-		# response = self.session.get(url)
+		response = self.session.get(url)
 
 		# with open('cache/torrent', 'w') as f:
 		# 	f.write(_decode_unicode(response.text))
 
-		# if response.status_code == requests.codes.ok:
+		if response.status_code == requests.codes.ok:
 
-		with open(fp, 'r') as f:
-			text = f.read()
+		# with open(fp, 'r') as f:
+		# 	text = f.read()
 
-		tree = etree.HTML(text)
+			tree = etree.HTML(response.text)
 
-		# torrent.date = Parser(tree, self.source.torrent["date"]).extract()
-		torrent.description = Parser(tree, self.source.torrent["description"]).extract()
-		torrent.seeders = Parser(tree, self.source.torrent["seeders"]).extract()
-		torrent.leechers = Parser(tree, self.source.torrent["leechers"]).extract()
-		torrent.magnet = Parser(tree, self.source.torrent["magnet"]).extract()
+			# torrent.date = Parser(tree, self.source.torrent["date"]).extract()
+			torrent.description = Parser(tree, self.source.torrent["description"]).extract()
+			torrent.seeders = Parser(tree, self.source.torrent["seeders"]).extract()
+			torrent.leechers = Parser(tree, self.source.torrent["leechers"]).extract()
+			torrent.magnet = Parser(tree, self.source.torrent["magnet"]).extract()
 
-		return torrent
-		# else:
-		# 	return None
+			return torrent
+		else:
+			print "torrent request error " + str(response.status_code)
+			return None
 
 def _decode_unicode(string):
 	if string is not None:
