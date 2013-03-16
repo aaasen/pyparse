@@ -48,30 +48,20 @@
 
 		"description" : {
 			"method" : "css",
-			"selector" : "div#desc",
+			"selector" : "div.data > div#desc",
 			"attr" : "text"
 		},
 
 		"seeders" : {
-			"method" : "xpath",
-			"xpath" : "//strong/@itemprop == \"seeders\"",
+			"method" : "css",
+			"selector" : "strong[itemprop=seeders]",
 			"attr" : "text"
 		},
 
 		"leechers" : {
-			"method" : "xpath",
-			"xpath" : "//strong/@itemprop == \"leechers\"",
+			"method" : "css",
+			"selector" : "strong[itemprop=leechers]",
 			"attr" : "text"
-		},
-
-		"date" : {
-			"method" : "xpath",
-			"xpath" : "//dt[re:test(., \"\\s*uploaded:\\s*\", \"gi\")]//following::dd",
-			"attr" : "text",
-			"date-format" : "%Y-%m-%d %H:%M:%S GMT",
-			"namespaces" : {
-				"re" : "http://exslt.org/regular-expressions"
-			}
 		}
 	}
 }

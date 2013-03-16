@@ -15,16 +15,25 @@ class BayAPI:
 		self.source = source
 
 	'''returns a list of torrent objects containing only torrent urls'''
-	def search(self, term, sort=None, category=None, page=0):
-		# if sort is None:
-		# 	sort = self.source.search["sort_codes"]["default"]
+	def search(self, term, sort=None, category=None, page=None):
+		if sort is None:
+			sort = self.source.search["sort_codes"]["default"]
+			if sort == "none":
+				sort = None
 
-		# if category is None:
-		# 	category = self.source.search["categories"]["default"]
+		if category is None:
+			category = self.source.search["categories"]["default"]
+			if category == "none":
+				category = None
+
+		if page is None:
+			page = self.source.search["page_number"]["default"]
+			if page == "none":
+				page = None
 
 		url = parser.translate_schema(self.source.search["schema"],
 			{ "search_term" : term,
-			"page_number" : None,
+			"page_number" : page,
 			"sort_code" : sort,
 			"category" : category })
 
@@ -35,7 +44,7 @@ class BayAPI:
 
 		# if response.status_code == requests.codes.ok:		
 		
-		with open('cache/tpb/search', 'r') as f:
+		with open('cache/kat/search', 'r') as f:
 			text = f.read()
 
 		tree = etree.HTML(text)
@@ -59,7 +68,7 @@ class BayAPI:
 
 		# if response.status_code == requests.codes.ok:
 
-		with open('cache/tpb/torrent', 'r') as f:
+		with open('cache/kat/torrent', 'r') as f:
 			text = f.read()
 
 		tree = etree.HTML(text)

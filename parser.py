@@ -14,7 +14,7 @@ class Parser:
 
 	def _get_attr(self, el):
 		if self.parser["attr"] == 'text':
-			return el.text
+			return reduce(lambda x, y: x + y, el.itertext())
 		else:
 			return el.get(self.parser["attr"])
 
