@@ -16,23 +16,20 @@ def _get_cache_name(url):
 	return CACHE_DIRECTORY + url
 
 def _get_local(url):
-	try:
-		with open(_get_cache_name(url) + 'as', 'r') as f:
-			return FakeResponse(f.read(), 200)
-	except IOError:
-		raise util.CacheError(url)
+	with open(_get_cache_name(url) + 'as', 'r') as f:
+		return FakeResponse(f.read(), 200)
 
 def _update_cache(url, text):
 	with open(_get_cache_name(url), 'w') as f:
 		f.write(util.decode_unicode(text))
 
-def get(session, url, headers={}, local=False, update_cache=False):
-	if local:
-		return _get_local(url)
-	else:
+def get(session, url, headers={}, update_cache=False):
+	if update_cache:
 		response = session.get(url, headers=headers)
-
-		if update_cache:
-			_update_cache(url, response.text)
+		_update_cache(url, response.text)
 
 		return response
+	try:
+		return _get_local(url)
+	except IOError:
+		return session.get(url, headers=headers)

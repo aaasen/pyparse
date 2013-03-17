@@ -10,8 +10,7 @@ import util
 
 from pprint import pprint
 
-LOCAL = False
-UPDATE_CACHE = True
+UPDATE_CACHE = False
 
 class BayAPI:
 	source = None
@@ -33,7 +32,7 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		response = getter.get(self.session, url, headers=self.source.info['headers'], local=LOCAL, update_cache=UPDATE_CACHE)
+		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=UPDATE_CACHE)
 
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
@@ -49,7 +48,7 @@ class BayAPI:
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
-		response = getter.get(self.session, url, headers=self.source.info['headers'], local=LOCAL, update_cache=UPDATE_CACHE)
+		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=UPDATE_CACHE)
 
 		if response.status_code == requests.codes.ok:
 			tree = etree.HTML(response.text)
