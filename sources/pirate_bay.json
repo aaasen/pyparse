@@ -5,14 +5,14 @@
 		"url" : "http://thepiratebay.se/",
 
 		"headers" : {
-			"User-Agent" : "curl/7.19.4 (universal-apple-darwin10.0) libcurl/7.19.4 OpenSSL/0.9.8k zlib/1.2.3",
-			"Host" : "127.0.0.1",
-			"Accept" : "*/*" 
+			"User-Agent" : "curl/7.16.3 (i686-pc-cygwin) libcurl/7.16.3 OpenSSL/0.9.8h zlib/1.2.3 libssh2/0.15-CVS",
+			"Host" : "tpb.voxanon.org",
+			"Accept" : "*/*"
 		}
 	},
 
 	"search" : {
-		"schema" : "http://thepiratebay.se/search/<[[search_term]]>/<[[page_number]]>/<[[sort_code]]>/<[[category]]>",
+		"schema" : "http://tpb.anonhi.de/search/<[[search_term]]>/<[[page_number]]>/<[[sort_code]]>/<[[category]]>",
 		
 		"sort_codes" : {
 			"default" : 0,
@@ -45,7 +45,7 @@
 	},
 
 	"torrent" : {
-		"schema" : "http://thepiratebay.se<[[url]]>",
+		"schema" : "http://tpb.anonhi.de<[[url]]>",
 
 		"description" : {
 			"method" : "css",

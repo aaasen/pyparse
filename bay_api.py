@@ -39,7 +39,6 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		print self.source.info["headers"]
 		response = self.session.get(url, headers=self.source.info["headers"])
 
 		# with open('cache/search', 'r') as f:
@@ -86,6 +85,7 @@ class BayAPI:
 
 			return torrent
 		else:
+			print url
 			print "torrent request error " + str(response.status_code)
 			return None
 
