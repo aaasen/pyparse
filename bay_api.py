@@ -6,6 +6,7 @@ import parser
 from parser import Parser
 from torrent import Torrent
 import getter
+import util
 
 from pprint import pprint
 
@@ -32,18 +33,14 @@ class BayAPI:
 		response = getter.get(self.session, url, headers=self.source.info['headers'], local=True, update_cache=True)
 
 		if response.status_code == requests.codes.ok:		
-
 			tree = etree.HTML(response.text)
 
 			links = Parser(tree, self.source.search["parser"]).extract(first=False)
-			links = map(lambda x: Torrent(x), links)
+			torrents = map(lambda x: Torrent(x), links)
 
-			return links
-		
+			return torrents
 		else:
-			print url
-			print "search request error " + str(response.status_code)
-			return None
+			raise util.HTTPError(url, response.status_code)
 
 	def get_torrent(self, torrent):
 		url = parser.translate_schema(self.source.torrent["schema"],
@@ -52,7 +49,6 @@ class BayAPI:
 		response = getter.get(self.session, url, headers=self.source.info['headers'], local=True, update_cache=True)
 
 		if response.status_code == requests.codes.ok:
-
 			tree = etree.HTML(response.text)
 
 			# torrent.date = Parser(tree, self.source.torrent["date"]).extract()
@@ -63,6 +59,4 @@ class BayAPI:
 
 			return torrent
 		else:
-			print url
-			print "torrent request error " + str(response.status_code)
-			return None
+			raise util.HTTPError(url, response.status_code)
