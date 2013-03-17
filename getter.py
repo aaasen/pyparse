@@ -16,8 +16,11 @@ def _get_cache_name(url):
 	return CACHE_DIRECTORY + url
 
 def _get_local(url):
-	with open(_get_cache_name(url), 'r') as f:
-		return FakeResponse(f.read(), 200)
+	try:
+		with open(_get_cache_name(url) + 'as', 'r') as f:
+			return FakeResponse(f.read(), 200)
+	except IOError:
+		raise util.CacheError(url)
 
 def _update_cache(url, text):
 	with open(_get_cache_name(url), 'w') as f:
