@@ -5,6 +5,7 @@ from lxml import etree
 import parser
 from parser import Parser
 from torrent import Torrent
+import getter
 
 from pprint import pprint
 
@@ -39,15 +40,9 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		response = self.session.get(url, headers=self.source.info["headers"])
-
-		# with open('cache/search', 'r') as f:
-		# 	f.write(_decode_unicode(response.text))
+		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=True)
 
 		if response.status_code == requests.codes.ok:		
-		
-			# with open(fp, 'r') as f:
-			# 	text = f.read()
 
 			tree = etree.HTML(response.text)
 
@@ -65,15 +60,9 @@ class BayAPI:
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
-		response = self.session.get(url)
-
-		# with open('cache/torrent', 'w') as f:
-		# 	f.write(_decode_unicode(response.text))
+		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=True)
 
 		if response.status_code == requests.codes.ok:
-
-		# with open(fp, 'r') as f:
-		# 	text = f.read()
 
 			tree = etree.HTML(response.text)
 
@@ -88,8 +77,3 @@ class BayAPI:
 			print url
 			print "torrent request error " + str(response.status_code)
 			return None
-
-def _decode_unicode(string):
-	if string is not None:
-		return string.encode('ascii', 'ignore')
-	return ''
