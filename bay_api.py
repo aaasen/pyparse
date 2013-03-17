@@ -18,21 +18,10 @@ class BayAPI:
 		self.source = source
 
 	'''returns a list of torrent objects containing only torrent urls'''
-	def search(self, term, sort=None, category=None, page=None, fp=None):
-		if sort is None:
-			sort = self.source.search["sort_codes"]["default"]
-			if sort == "none":
-				sort = None
-
-		if category is None:
-			category = self.source.search["categories"]["default"]
-			if category == "none":
-				category = None
-
-		if page is None:
-			page = self.source.search["page_number"]["default"]
-			if page == "none":
-				page = None
+	def search(self, term, sort=None, category=None, page=None):
+		sort = parser.fill_none(sort, self.source.search["sort_codes"]["default"])
+		category = parser.fill_none(category, self.source.search["categories"]["default"])
+		page = parser.fill_none(page, self.source.search["page_number"]["default"])
 
 		url = parser.translate_schema(self.source.search["schema"],
 			{ "search_term" : term,
@@ -40,7 +29,7 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=True)
+		response = getter.get(self.session, url, headers=self.source.info['headers'], local=True, update_cache=True)
 
 		if response.status_code == requests.codes.ok:		
 
@@ -56,11 +45,11 @@ class BayAPI:
 			print "search request error " + str(response.status_code)
 			return None
 
-	def get_torrent(self, torrent, fp=None):
+	def get_torrent(self, torrent):
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
-		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=True)
+		response = getter.get(self.session, url, headers=self.source.info['headers'], local=True, update_cache=True)
 
 		if response.status_code == requests.codes.ok:
 

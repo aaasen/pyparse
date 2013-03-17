@@ -13,9 +13,9 @@ from pprint import pprint
 kat = Source('sources/kick_ass_torrents.json')
 kat_api = BayAPI(kat)
 
-torrents = kat_api.search('ubuntu', kat.search['sort_codes']['seeders'], fp='cache/kat/search')
+torrents = kat_api.search('ubuntu', kat.search['sort_codes']['seeders'])
 
-torrent = kat_api.get_torrent(torrents[0], fp='cache/kat/torrent')
+torrent = kat_api.get_torrent(torrents[0])
 
 pprint(vars(torrent))
 
@@ -23,8 +23,8 @@ pprint(vars(torrent))
 tpb = Source('sources/pirate_bay.json')
 tpb_api = BayAPI(tpb)
 
-torrents = tpb_api.search('ubuntu', tpb.search['sort_codes']['seeders'], fp='cache/tpb/search')
+torrents = tpb_api.search('ubuntu', tpb.search['sort_codes']['seeders'])
 
-torrent = tpb_api.get_torrent(torrents[0], fp='cache/tpb/torrent')
+torrent = tpb_api.get_torrent(torrents[0])
 
 pprint(vars(torrent))

@@ -74,3 +74,10 @@ def translate_schema(schema, kv):
 			logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys))
 
 	return schema
+
+def fill_none(field, default, eval_default=True):
+	if field is None:
+		field = default
+		if eval_default and field == 'none':
+			field = None
+	return field
