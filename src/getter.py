@@ -3,7 +3,7 @@ import requests
 
 import util
 
-CACHE_DIRECTORY = 'cache/'
+CACHE_DIRECTORY = '../cache/'
 
 class FakeResponse:
 	def __init__(self, text, status_code):

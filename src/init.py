@@ -6,7 +6,7 @@ from source import Source
 
 from pprint import pprint
 
-tpb = BayAPI(Source('sources/pirate_bay.json'))
+tpb = BayAPI(Source('../sources/pirate_bay.json'))
 torrents = tpb.search('ubuntu')
 first = tpb.get_torrent(torrents[0])
 

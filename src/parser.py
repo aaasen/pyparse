@@ -6,8 +6,6 @@ from cssselect import GenericTranslator, SelectorError
 import re
 import time
 
-from log import logger
-
 class Parser:
 	parser = None
 	tree = None
@@ -71,7 +69,7 @@ def translate_schema(schema, kv):
 				el = el.replace(str(key[1]), str(kv[key[2]]))
 				schema = schema.replace(key[0], el)
 		except KeyError, e:
-			logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys))
+			raise KeyError(logger.error("Error while parsing schema: not enough values\n\tgot: " + str(kv.keys()) + "\n\texpected: " + str(keys)))
 
 	return schema
 
