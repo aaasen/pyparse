@@ -8,17 +8,16 @@ To make it worse (for devs at least), there are *tons* of them.
 
 ### GetTorrent takes care of these inconsistencies so you don't have to
 ```python
-tpb = Getter(Source('../../sources/pirate_bay.json'))
-torrents = tpb.search('ubuntu', sort='seeders')
-first = tpb.get_torrent(torrents[0])
-```
-### And here's the most seeded Ubuntu torrent on The Pirate Bay:
-```python
-{'description': '...',
- 'seeders': '64',
- 'leechers': '8',
- 'magnet': 'magnet:...',
- 'url': '/torrent/...'}
+>>> tpb = GetTorrent('../../sources/pirate_bay.json')
+>>> tpb.search('ubuntu', sort='seeders')
+{
+	'title': 'Ubuntu 12.10',
+	'seeders': '64',
+	'leechers': '8',
+	'magnet': 'magnet:...',
+	'url': '/torrent/...'
+}
+...
 ```
 
 *Magic.*
