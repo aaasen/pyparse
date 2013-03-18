@@ -16,8 +16,14 @@ def _get_cache_name(url):
 	return CACHE_DIRECTORY + url
 
 def _get_local(url):
-	with open(_get_cache_name(url) + 'as', 'r') as f:
+	with open(_get_cache_name(url), 'r') as f:
 		return FakeResponse(f.read(), 200)
+
+def _get_remote(url):
+	response = session.get(url, headers=headers)
+	_update_cache(url, response.text)
+
+	return response
 
 def _update_cache(url, text):
 	with open(_get_cache_name(url), 'w') as f:
@@ -25,11 +31,8 @@ def _update_cache(url, text):
 
 def get(session, url, headers={}, update_cache=False):
 	if update_cache:
-		response = session.get(url, headers=headers)
-		_update_cache(url, response.text)
-
-		return response
+		return _get_remote(url)
 	try:
 		return _get_local(url)
 	except IOError:
-		return session.get(url, headers=headers)
+		return _get_remote(url)
