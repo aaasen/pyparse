@@ -5,14 +5,14 @@ from lxml import etree
 import parser
 from parser import Parser
 from torrent import Torrent
-import getter
+import cacher
 import util
 
 from pprint import pprint
 
-UPDATE_CACHE = False
+_update_cache = False
 
-class BayAPI:
+class Getter:
 	source = None
 	session = None
 
@@ -36,7 +36,7 @@ class BayAPI:
 			"sort_code" : sort,
 			"category" : category })
 
-		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=UPDATE_CACHE)
+		response = cacher.get(self.session, url, headers=self.source.info['headers'], update_cache=_update_cache)
 
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
@@ -55,7 +55,7 @@ class BayAPI:
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
 
-		response = getter.get(self.session, url, headers=self.source.info['headers'], update_cache=UPDATE_CACHE)
+		response = cacher.get(self.session, url, headers=self.source.info['headers'], update_cache=_update_cache)
 
 		if response.status_code == requests.codes.ok:
 			tree = etree.HTML(response.text)
