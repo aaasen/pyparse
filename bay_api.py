@@ -62,3 +62,6 @@ class BayAPI:
 			return torrent
 		else:
 			raise util.HTTPError(url, response.status_code)
+
+	def get_torrents(self, torrents):
+		return map(lambda torrent: self.get_torrent(torrent), torrents)
