@@ -41,8 +41,8 @@ class Getter:
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
 
-			titles = Parser(tree, self.source.search["title"]).extract(first=False)
 			urls = Parser(tree, self.source.search["url"]).extract(first=False)
+			titles = Parser(tree, self.source.search["title"]).extract(first=False)
 			magnets = Parser(tree, self.source.search["magnet"]).extract(first=False)
 			seeders = Parser(tree, self.source.search["seeders"]).extract(first=False)
 			leechers = Parser(tree, self.source.search["leechers"]).extract(first=False)

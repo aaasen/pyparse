@@ -36,10 +36,34 @@
 			"default" : "none"
 		},
 
-		"parser" : {
+		"magnet" : {
 			"method" : "css",
-			"selector" : "div.torrentname > a.torType.pdfType",
+			"selector" : "a.imagnet",
 			"attr" : "href"
+		},
+
+		"title" : {
+			"method" : "css",
+			"selector" : "div.torrentname > a.normalgrey.font12px.plain.bold",
+			"attr" : "text"
+		},
+
+		"url" : {
+			"method" : "css",
+			"selector" : "div.torrentname > a.torType",
+			"attr" : "href"
+		},
+
+		"seeders" : {
+			"method" : "css",
+			"selector" : "td.green.center",
+			"attr" : "text"
+		},
+
+		"leechers" : {
+			"method" : "css",
+			"selector" : "td.red.center",
+			"attr" : "text"
 		}
 	},
 

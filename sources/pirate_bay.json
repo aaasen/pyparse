@@ -37,12 +37,6 @@
 			"default" : 0
 		},
 
-		"parser" : {
-			"method" : "css",
-			"selector" : "a.detLink",
-			"attr" : "href"
-		},
-
 		"magnet" : {
 			"method" : "css",
 			"selector" : "td > a[title~=magnet]",
