@@ -20,7 +20,11 @@ class BayAPI:
 		self.session = requests.Session()
 		self.source = source
 
-	'''returns a list of torrent objects containing only torrent urls'''
+	'''
+	Returns a list of torrent objects containing only torrent urls.
+	To fill these torrent objects, use get_torrent(self, torrent)
+	or get_torrents(self, torrents) for multiple torrents
+	'''
 	def search(self, term, sort=None, category=None, page=None):
 		sort = parser.fill_none(self.source.search["sort_codes"], sort)
 		category = parser.fill_none(self.source.search["categories"], category)
@@ -44,6 +48,9 @@ class BayAPI:
 		else:
 			raise util.HTTPError(url, response.status_code)
 
+	'''
+	Fetches info like seeders, leechers, magnet, etc. for an individual torrent.
+	'''
 	def get_torrent(self, torrent):
 		url = parser.translate_schema(self.source.torrent["schema"],
 			{ "url" : torrent.url })
@@ -63,5 +70,8 @@ class BayAPI:
 		else:
 			raise util.HTTPError(url, response.status_code)
 
+	'''
+	Fetches data for multiple torrents using get_torrent().
+	'''
 	def get_torrents(self, torrents):
 		return map(lambda torrent: self.get_torrent(torrent), torrents)
