@@ -3,9 +3,9 @@ import requests
 
 import util
 
-CACHE_DIRECTORY = '../cache/'
+_cache_directory = '../cache/'
 
-class FakeResponse:
+class _FakeResponse:
 	def __init__(self, text, status_code):
 		self.text = text
 		self.status_code = status_code
@@ -13,11 +13,11 @@ class FakeResponse:
 def _get_cache_name(url):
 	url = url.replace('http://', '')
 	url = url.replace('/', '.')
-	return CACHE_DIRECTORY + url
+	return _cache_directory + url
 
 def _get_local(url):
 	with open(_get_cache_name(url), 'r') as f:
-		return FakeResponse(f.read(), 200)
+		return _FakeResponse(f.read(), 200)
 
 def _get_remote(session, url, headers={}):
 	response = session.get(url, headers=headers)
