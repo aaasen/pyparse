@@ -5,6 +5,7 @@ from lxml import etree
 import parser
 from parser import Parser
 from torrent import Torrent
+from source import Source
 import cacher
 import util
 
@@ -12,13 +13,13 @@ from pprint import pprint
 
 _update_cache = False
 
-class Getter:
+class GetTorrent:
 	source = None
 	session = None
 
 	def __init__(self, source):
 		self.session = requests.Session()
-		self.source = source
+		self.source = Source(source)
 
 	'''
 	Returns a list of torrent objects containing only torrent urls.
