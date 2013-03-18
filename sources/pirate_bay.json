@@ -15,7 +15,7 @@
 		"schema" : "http://tpb.anonhi.de/search/<[[search_term]]>/<[[page_number]]>/<[[sort_code]]>/<[[category]]>",
 		
 		"sort_codes" : {
-			"default" : 7,
+			"default" : 0,
 			"date" : 3,
 			"size" : 5,
 			"seeders" : 7,

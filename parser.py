@@ -75,9 +75,9 @@ def translate_schema(schema, kv):
 
 	return schema
 
-def fill_none(field, default, eval_default=True):
+def fill_none(kv, field, default='default', eval_default=True):
 	if field is None:
-		field = default
+		field = kv[default]
 		if eval_default and field == 'none':
 			field = None
 	return field

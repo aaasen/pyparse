@@ -22,9 +22,9 @@ class BayAPI:
 
 	'''returns a list of torrent objects containing only torrent urls'''
 	def search(self, term, sort=None, category=None, page=None):
-		sort = parser.fill_none(sort, self.source.search["sort_codes"]["default"])
-		category = parser.fill_none(category, self.source.search["categories"]["default"])
-		page = parser.fill_none(page, self.source.search["page_number"]["default"])
+		sort = parser.fill_none(self.source.search["sort_codes"], sort)
+		category = parser.fill_none(self.source.search["categories"], category)
+		page = parser.fill_none(self.source.search["page_number"], page)
 
 		url = parser.translate_schema(self.source.search["schema"],
 			{ "search_term" : term,
