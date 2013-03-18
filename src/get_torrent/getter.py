@@ -41,8 +41,14 @@ class Getter:
 		if response.status_code == requests.codes.ok:		
 			tree = etree.HTML(response.text)
 
-			links = Parser(tree, self.source.search["parser"]).extract(first=False)
-			torrents = map(lambda x: Torrent(x), links)
+			titles = Parser(tree, self.source.search["title"]).extract(first=False)
+			urls = Parser(tree, self.source.search["url"]).extract(first=False)
+			magnets = Parser(tree, self.source.search["magnet"]).extract(first=False)
+			seeders = Parser(tree, self.source.search["seeders"]).extract(first=False)
+			leechers = Parser(tree, self.source.search["leechers"]).extract(first=False)
+
+			torrents = zip(urls, titles, magnets, seeders, leechers)
+			torrents = map(lambda x: Torrent(x[0], title=x[1], magnet=x[2], seeders=x[3], leechers=x[4]), torrents)
 
 			return torrents
 		else:

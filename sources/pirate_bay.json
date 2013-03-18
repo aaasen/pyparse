@@ -41,6 +41,42 @@
 			"method" : "css",
 			"selector" : "a.detLink",
 			"attr" : "href"
+		},
+
+		"magnet" : {
+			"method" : "css",
+			"selector" : "td > a[title~=magnet]",
+			"attr" : "href"
+		},
+
+		"title" : {
+			"method" : "css",
+			"selector" : "a.detLink",
+			"attr" : "text"
+		},
+
+		"url" : {
+			"method" : "css",
+			"selector" : "a.detLink",
+			"attr" : "href"
+		},
+
+		"seeders" : {
+			"method" : "xpath",
+			"xpath" : "//tr/td[3]",
+			"attr" : "text",
+			"namespaces" : {
+
+			}
+		},
+
+		"leechers" : {
+			"method" : "xpath",
+			"xpath" : "//tr/td[4]",
+			"attr" : "text",
+			"namespaces" : {
+
+			}
 		}
 	},
 
