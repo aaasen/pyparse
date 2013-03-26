@@ -7,7 +7,7 @@ from parser import Parser
 from torrent import Torrent
 from source import Source
 import cacher
-import util
+from errors import FetchError
 
 from pprint import pprint
 
@@ -53,7 +53,7 @@ class GetTorrent:
 
 			return torrents
 		else:
-			raise util.HTTPError(url, response.status_code)
+			raise FetchError(url, response.status_code)
 
 	'''
 	Fetches info like seeders, leechers, magnet, etc. for an individual torrent.
@@ -75,7 +75,7 @@ class GetTorrent:
 
 			return torrent
 		else:
-			raise util.HTTPError(url, response.status_code)
+			raise FetchError(url, response.status_code)
 
 	'''
 	Fetches data for multiple torrents using get_torrent().

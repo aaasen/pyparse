@@ -44,3 +44,19 @@ class ParseMethodError(Exception):
 
 	def __str__(self):
 		return '\'%s\' is not a supported parsing method' % self.method
+
+class FetchError(Exception):
+	"""Raised when an request returns an invalid status code.
+
+	Attributes:
+		url -- url that triggered the error
+		status_code -- bad status code
+	"""
+
+	def __init__(self, url, status_code):
+		self.url = url
+		self.status_code = status_code
+
+	def __str__(self):
+		return '\'%s\' returned invalid status code %s' %\
+			(self.url, self.status_code)
