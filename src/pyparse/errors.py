@@ -13,3 +13,21 @@ class LoadError(Exception):
 
 	def __str__(self):
 		return 'error while parsing \'%s\': %s' % (self.file_name, self.message)
+
+class SchemaError(Exception):
+	"""Exception raised when parsing schema.
+
+	Attributes:
+		schema -- given schema
+		expected -- required keys
+		actual -- actual keys
+	"""
+
+	def __init__(self, schema, expected, actual):
+		self.schema = schema
+		self.expected = expected
+		self.actual = actual
+
+	def __str__(self):
+		return 'error while parsing schema \'%s\',\n\texpected: %s\n\tbut only got: %s' % \
+			(self.schema, str(self.expected), str(self.actual))
