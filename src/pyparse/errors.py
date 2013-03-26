@@ -1,6 +1,6 @@
 
 class LoadError(Exception):
-	"""Exception raised when loading parsers.
+	"""Raised when loading parsers in unsupported formats.
 
 	Attributes:
 		file_name -- name of the file in which the exception occured
@@ -15,7 +15,7 @@ class LoadError(Exception):
 		return 'error while parsing \'%s\': %s' % (self.file_name, self.message)
 
 class SchemaError(Exception):
-	"""Exception raised when parsing schema.
+	"""Raised when parsing incorrect schema.
 
 	Attributes:
 		schema -- given schema
@@ -31,3 +31,16 @@ class SchemaError(Exception):
 	def __str__(self):
 		return 'error while parsing schema \'%s\',\n\texpected: %s\n\tbut only got: %s' % \
 			(self.schema, str(self.expected), str(self.actual))
+
+class ParseMethodError(Exception):
+	"""Raised when an unsupported parsing method is specified.
+
+	Attributes:
+		method -- method specified
+	"""
+
+	def __init__(self, method):
+		self.method = method
+
+	def __str__(self):
+		return '\'%s\' is not a supported parsing method' % self.method

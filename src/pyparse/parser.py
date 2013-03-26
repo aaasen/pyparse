@@ -7,6 +7,7 @@ import re
 import time
 
 from errors import SchemaError
+from errors import ParseMethodError
 
 class Parser:
 	parser = None
@@ -24,7 +25,7 @@ class Parser:
 		elif self.parser["method"] == "css":
 			return GenericTranslator().css_to_xpath(self.parser["selector"])
 		else:
-			raise ValueError(self.parser["method"] + 'is not a recognized parsing method')
+			raise ParseMethodError(self.parser["method"])
 
 	def _execute(self, expression):
 		if self.parser["method"] == "xpath":
@@ -32,7 +33,7 @@ class Parser:
 		elif self.parser["method"] == "css":
 			result = self.tree.xpath(expression)
 		else:
-			raise ValueError(self.parser["method"] + 'is not a recognized parsing method')
+			raise ParseMethodError(self.parser["method"])
 		return result if all else result[0]
 
 	def _post_one(self, result):
