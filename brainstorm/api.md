@@ -1,12 +1,11 @@
-
 Here goes a sample parser to design pyparse around.
 
 ```yaml
-available_parsers: [search]
+parsers: [search]
 
 search:
-    available_parsers: [seeders, magnet]
-    schema: |
+    parsers: [seeders, magnet]
+    fetch: |
         http://tpb.anonhi.de/search/<[[search_term]]>/<[[sort_code]]>/
     
     args:
