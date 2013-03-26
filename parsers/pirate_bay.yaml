@@ -1,0 +1,85 @@
+---
+info:
+    name: The Pirate Bay
+    url: http://thepiratebay.se/
+    headers:
+        User-Agent: curl/7.16.3 (i686-pc-cygwin) libcurl/7.16.3 OpenSSL/0.9.8h zlib/1.2.3
+            libssh2/0.15-CVS
+        Host: tpb.voxanon.org
+        Accept: '*/*'
+search:
+    schema: http://tpb.anonhi.de/search/<[[search_term]]>/<[[page_number]]>/<[[sort_code]]>/<[[category]]>
+    sort_codes:
+        default: 0
+        date: 3
+        size: 5
+        seeders: 7
+        leechers: 8
+        uploader: 11
+    categories:
+        default: 0
+        all: 0
+        audio: 100
+        video: 200
+        applications: 300
+        games: 400
+        other: 600
+    page_number:
+        default: 0
+    magnet:
+        method: css
+        selector: td > a[title~=magnet]
+        attr: href
+    title:
+        method: css
+        selector: a.detLink
+        attr: text
+    url:
+        method: css
+        selector: a.detLink
+        attr: href
+    seeders:
+        method: xpath
+        xpath: //tr/td[3]
+        attr: text
+        namespaces: []
+    leechers:
+        method: xpath
+        xpath: //tr/td[4]
+        attr: text
+        namespaces: []
+torrent:
+    schema: http://tpb.anonhi.de<[[url]]>
+    description:
+        method: css
+        selector: div.nfo > pre
+        attr: text
+    seeders:
+        method: xpath
+        xpath: //dt[re:test(., "\s*seeders:\s*", "gi")]//following::dd
+        attr: text
+        namespaces:
+            re: http://exslt.org/regular-expressions
+    leechers:
+        method: xpath
+        xpath: //dt[re:test(., "\s*leechers:\s*", "gi")]//following::dd
+        attr: text
+        namespaces:
+            re: http://exslt.org/regular-expressions
+    date:
+        method: xpath
+        xpath: //dt[re:test(., "\s*uploaded:\s*", "gi")]//following::dd
+        attr: text
+        date-format: '%Y-%m-%d %H:%M:%S GMT'
+        namespaces:
+            re: http://exslt.org/regular-expressions
+    magnet:
+        method: css
+        selector: div.download > a
+        attr: href
+comment:
+    text:
+        method: css
+        selector: div#comments > div.comment
+        attr: text
+...
