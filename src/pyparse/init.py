@@ -7,4 +7,4 @@ from pprint import pprint
 tpb = GetTorrent('../../sources/pirate_bay.json')
 torrents = tpb.search('ubuntu', sort='seeders')
 
-pprint(vars(torrents[0]))
+pprint(map(lambda x: vars(x), torrents[:1]))
