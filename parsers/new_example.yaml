@@ -1,0 +1,18 @@
+
+parsers: [search]
+
+search:
+    parsers: [link, points]
+
+    fetch:
+        url: https://news.ycombinator.com/
+
+    link:
+        method: css
+        selector: td.title > a
+        attr: href
+
+    points:
+        method: css
+        selector: td.subtext > span
+        attr: text
