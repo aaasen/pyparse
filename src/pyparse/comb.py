@@ -14,13 +14,25 @@ class Comb:
 	def __init__(self, source):
 		self.session = requests.Session()
 		self.source = Source(source)
+		self.parsers = []
 
-def load(data):
-	if 'parsers' in data:
-		names = data['parsers']
+	def _get_tree(self, url):
+		response = cacher.get(self.session, url)
 
-		parsers = map(lambda x: (x, data[x]), names)
+		if response.status_code == requests.codes.ok:
+			return etree.HTML(response.text)
+		else:
+			raise FetchError(data['fetch']['url'], response.status_code)
 
-		return map(lambda x: (x[0], load(x[1])), parsers)
-	else:
-		return data
+	def load(self, parser, tree=None):
+		if 'fetch' in parser:
+			tree = self._get_tree(parser['fetch']['url'])
+
+		if tree is None:
+			# raise an exception
+			pass
+		else:
+			self.parsers.append(Parser(tree, parser))
+		if 'parsers' in parser:
+			for child in parser['parsers']:
+				self.load(parser[child], tree)

@@ -9,7 +9,9 @@ tpb = Comb('../../parsers/new_example.yaml')
 
 # pprint(vars(tpb.source))
 
-pprint(comb.load(tpb.source.data))
+pprint(tpb.load(tpb.source.data, None))
+
+print map(lambda x: str(x.parser), tpb.parsers)
 
 # results = tpb['search'].get({ 'term' : 'ubuntu' })
 
