@@ -9,9 +9,34 @@ import time
 from errors import SchemaError
 from errors import ParseMethodError
 
+def translate_schema(schema, kv):
+	keys = re.findall('(\<.*?(\[\[(.+?)\]\]).*?\>)', schema)
+
+	for key in keys:
+		try:
+			if kv[key[2]] is None:
+				schema = schema.replace(key[0], '')
+			else:
+				el = key[0]
+				el = el.replace('<', '').replace('>', '')
+				el = el.replace(str(key[1]), str(kv[key[2]]))
+				schema = schema.replace(key[0], el)
+		except KeyError:
+			raise SchemaError(schema, map(lambda x: x[2], keys), kv.keys())
+
+	return schema
+
+def fill_none(kv, field, default='default', eval_default=True):
+	if field is None:
+		field = kv[default]
+		if eval_default and field == 'none':
+			field = None
+	return field
+
 class Parser:
-	parser = None
-	tree = None
+	def __init__(self, tree, parser):
+		self.tree = tree
+		self.parser = parser
 
 	def _get_attr(self, el):
 		if self.parser["attr"] == 'text':
@@ -54,31 +79,3 @@ class Parser:
 
 	def extract(self, first=True):
 		return self._post(self._execute(self._expression()), first=first)
-
-	def __init__(self, tree, parser):
-		self.tree = tree
-		self.parser = parser
-
-def translate_schema(schema, kv):
-	keys = re.findall('(\<.*?(\[\[(.+?)\]\]).*?\>)', schema)
-
-	for key in keys:
-		try:
-			if kv[key[2]] is None:
-				schema = schema.replace(key[0], '')
-			else:
-				el = key[0]
-				el = el.replace('<', '').replace('>', '')
-				el = el.replace(str(key[1]), str(kv[key[2]]))
-				schema = schema.replace(key[0], el)
-		except KeyError:
-			raise SchemaError(schema, map(lambda x: x[2], keys), kv.keys())
-
-	return schema
-
-def fill_none(kv, field, default='default', eval_default=True):
-	if field is None:
-		field = kv[default]
-		if eval_default and field == 'none':
-			field = None
-	return field
