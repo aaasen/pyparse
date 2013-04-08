@@ -2,12 +2,12 @@
 parsers: [search]
 
 search:
-    parsers: [link, points]
+    parsers: [url, points]
 
     fetch:
         url: https://news.ycombinator.com/
 
-    link:
+    url:
         method: css
         selector: td.title > a
         attr: href

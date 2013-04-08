@@ -7,14 +7,11 @@ import comb
 
 tpb = Comb('../../parsers/new_example.yaml')
 
-# pprint(vars(tpb.source))
+tpb.load('entry', tpb.source.data, None)
 
-pprint(tpb.load(tpb.source.data, None))
+print tpb.parsers[1:]
 
-print map(lambda x: x.parser, tpb.parsers)
+for parser in tpb.parsers[1:]:
+	print parser.extract(first=False)
 
-print tpb.parsers[1].extract(first=False)
-
-# results = tpb['search'].get({ 'term' : 'ubuntu' })
-
-# pprint(map(lambda x: vars(x), results[:1]))
+print zip(tpb.parsers[1].extract(first=False), tpb.parsers[2].extract(first=False))

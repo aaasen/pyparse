@@ -8,8 +8,6 @@ from source import Source
 import cacher
 from errors import FetchError
 
-from pprint import pprint
-
 class Comb:
 	def __init__(self, source):
 		self.session = requests.Session()
@@ -24,7 +22,7 @@ class Comb:
 		else:
 			raise FetchError(data['fetch']['url'], response.status_code)
 
-	def load(self, parser, tree=None):
+	def load(self, name, parser, tree=None):
 		if 'fetch' in parser:
 			tree = self._get_tree(parser['fetch']['url'])
 
@@ -32,7 +30,7 @@ class Comb:
 			# raise an exception
 			pass
 		else:
-			self.parsers.append(Parser(tree, parser))
+			self.parsers.append(Parser(name, tree, parser))
 		if 'parsers' in parser:
 			for child in parser['parsers']:
-				self.load(parser[child], tree)
+				self.load(child, parser[child], tree)
